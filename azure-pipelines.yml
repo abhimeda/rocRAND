@@ -23,5 +23,12 @@ steps:
   
 - script: |
     cd build
-    ctest --output-on-failure
-  displayName: 'Test'
+    ctest --output-on-failure  --output-junit test_output.xml
+  displayName: 'run tests'
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'junit'
+    testResultsFiles: '**/test_output.xml' 
+  condition: succeededOrFailed()
+  displayName: 'rocRAND Test Results'
+
